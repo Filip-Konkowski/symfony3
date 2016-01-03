@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle;
+namespace JobeetBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AppBundle extends Bundle
+class JobeetBundle extends Bundle
 {
 }

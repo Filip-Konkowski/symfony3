@@ -1,0 +1,30 @@
+JobeetBundle\Entity\Affiliate:
+    type: entity
+    table: affiliate
+    repositoryClass: JobeetBundle\Repository\AffiliateRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        url:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+            unique: true
+        token:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+            column: created_at
+    oneToMany:
+        category_affiliates:
+            targetEntity: CategoryAffiliate
+            mappedBy: affiliate
+    lifecycleCallbacks:
+        prePersist: [ setCreatedAtValue ]

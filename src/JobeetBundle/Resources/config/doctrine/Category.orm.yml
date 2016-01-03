@@ -1,0 +1,23 @@
+JobeetBundle\Entity\Category:
+    type: entity
+    table: category
+    repositoryClass: JobeetBundle\Repository\CategoryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+    oneToMany:
+        jobs:
+            targetEntity: Job
+            mappedBy: category
+        category_affiliates:
+            targetEntity: CategoryAffiliate
+            mappedBy: category
+    lifecycleCallbacks: {  }

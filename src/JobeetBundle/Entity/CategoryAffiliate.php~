@@ -1,0 +1,26 @@
+<?php
+
+namespace JobeetBundle\Entity;
+
+/**
+ * CategoryAffiliate
+ */
+class CategoryAffiliate
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

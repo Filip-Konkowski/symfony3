@@ -1,3 +1,9 @@
+jobeet_job:
+    resource: "@JobeetBundle/Resources/config/routing/job.yml"
+    prefix:   /job
+
 jobeet_homepage:
-    path:     /
+    path:     /hello/{name}
     defaults: { _controller: JobeetBundle:Default:index }
+
+

@@ -1,0 +1,24 @@
+job_index:
+    path:     /
+    defaults: { _controller: "JobeetBundle:Job:index" }
+    methods:  GET
+
+job_show:
+    path:     /{id}/show
+    defaults: { _controller: "JobeetBundle:Job:show" }
+    methods:  GET
+
+job_new:
+    path:     /new
+    defaults: { _controller: "JobeetBundle:Job:new" }
+    methods:  [GET, POST]
+
+job_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "JobeetBundle:Job:edit" }
+    methods:  [GET, POST]
+
+job_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "JobeetBundle:Job:delete" }
+    methods:  DELETE

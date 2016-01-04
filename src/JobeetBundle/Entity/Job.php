@@ -2,6 +2,9 @@
 
 namespace JobeetBundle\Entity;
 
+
+use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 /**
  * Job
  */

@@ -24,7 +24,7 @@ class JobController extends Controller
 
         $jobs = $em->getRepository('JobeetBundle:Job')->findAll();
 
-        return $this->render('job/index.html.twig', array(
+        return $this->render('JobeetBundle:job:index.html.twig', array(
             'jobs' => $jobs,
         ));
     }
@@ -47,7 +47,7 @@ class JobController extends Controller
             return $this->redirectToRoute('job_show', array('id' => $job->getId()));
         }
 
-        return $this->render('job/new.html.twig', array(
+        return $this->render('JobeetBundle:job:new.html.twig', array(
             'job' => $job,
             'form' => $form->createView(),
         ));
@@ -57,13 +57,21 @@ class JobController extends Controller
      * Finds and displays a Job entity.
      *
      */
-    public function showAction(Job $job)
+    public function showAction($id)
     {
-        $deleteForm = $this->createDeleteForm($job);
+        $em = $this->getDoctrine()->getEntityManager();
 
-        return $this->render('job/show.html.twig', array(
+        $job = $em->getRepository("JobeetBundle:Job")->find($id);
+
+        if (!$job) {
+            throw $this->createNotFoundException('Job not found');
+        }
+
+//        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('JobeetBundle:job:show.html.twig', array(
             'job' => $job,
-            'delete_form' => $deleteForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -85,7 +93,7 @@ class JobController extends Controller
             return $this->redirectToRoute('job_edit', array('id' => $job->getId()));
         }
 
-        return $this->render('job/edit.html.twig', array(
+        return $this->render('JobeetBundle:job:edit.html.twig', array(
             'job' => $job,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

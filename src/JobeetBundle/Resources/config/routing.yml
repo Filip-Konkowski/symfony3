@@ -3,7 +3,10 @@ jobeet_job:
     prefix:   /job
 
 jobeet_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: JobeetBundle:Default:index }
+    path:     /
+    defaults: {  _controller: JobeetBundle:Job:index }
 
 
+JobeetBundle_category:
+    path:  /category/{slug}
+    defaults: { _controller: JobeetBundle:Category:show }

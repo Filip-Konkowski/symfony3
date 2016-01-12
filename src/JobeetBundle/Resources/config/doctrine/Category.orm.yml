@@ -5,11 +5,13 @@ JobeetBundle\Entity\Category:
     id:
         id:
             type: integer
-            id: true
-            generator:
-                strategy: AUTO
+            generator: { strategy: AUTO }
     fields:
         name:
+            type: string
+            length: 255
+            unique: true
+        slug:
             type: string
             length: 255
             unique: true
@@ -20,4 +22,6 @@ JobeetBundle\Entity\Category:
         category_affiliates:
             targetEntity: CategoryAffiliate
             mappedBy: category
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ setSlugValue ]
+        preUpdate: [ setSlugValue ]

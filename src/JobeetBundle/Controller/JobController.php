@@ -20,13 +20,21 @@ class JobController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $jobs = $em->getRepository('JobeetBundle:Job')->findAll();
+        $categories = $em->getRepository('JobeetBundle:Category')->getWithJobs();
+
+        foreach($categories as $category)
+        {
+            $category->setActiveJobs($em->getRepository('JobeetBundle:Job')->getActiveJobs($category->getId(), $this->container->getParameter('max_jobs_on_homepage')));
+            $category->setMoreJobs($em->getRepository('JobeetBundle:Job')->countActiveJobs($category->getId()) - $this->container->getParameter('max_jobs_on_homepage'));
+        }
 
         return $this->render('JobeetBundle:job:index.html.twig', array(
-            'jobs' => $jobs,
+            'categories' => $categories
         ));
+
     }
 
     /**
@@ -57,21 +65,21 @@ class JobController extends Controller
      * Finds and displays a Job entity.
      *
      */
-    public function showAction($id)
+    public function showAction(Job $id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $job = $em->getRepository("JobeetBundle:Job")->find($id);
+        $entity = $em->getRepository('JobeetBundle:Job')->getActiveJob($id);
 
-        if (!$job) {
-            throw $this->createNotFoundException('Job not found');
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Job entity.');
         }
 
-//        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('JobeetBundle:job:show.html.twig', array(
-            'job' => $job,
-//            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -127,6 +135,11 @@ class JobController extends Controller
      */
     private function createDeleteForm(Job $job)
     {
+//        $delTask = $this->getDoctrine()->getRepository("AppBundle:Task")->find($taskId);
+//        $em = $this->getDoctrine()->getManager();
+//        $em->remove($delTask);
+//        $em->flush();
+
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('job_delete', array('id' => $job->getId())))
             ->setMethod('DELETE')

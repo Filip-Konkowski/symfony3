@@ -1,0 +1,30 @@
+{% extends 'JobeetBundle::layout.html.twig' %}
+
+
+{% block title %}
+    Jobs in the {{ category.name }} category
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/public/css/job.css') }}" type="text/css" media="all" >
+{% endblock %}
+
+{% block content %}
+    <div class="category">
+        <div class="feed">
+            <a href="">Feed</a>
+        </div>
+        <h1>{{ category.name }}</h1>
+
+        {% include 'JobeetBundle:job:list.html.twig' with {'jobs': pagination} %}
+
+
+    </div>
+    <div class="pagination_desc">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+
+
+{% endblock %}

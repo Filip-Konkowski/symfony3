@@ -4,9 +4,11 @@ job_index:
     methods:  GET
 
 job_show:
-    path:     /{id}/show
+    path:  /{id}/{company}/{location}/{position}
     defaults: { _controller: "JobeetBundle:Job:show" }
     methods:  GET
+    requirements:
+      id: \d+
 
 job_new:
     path:     /new
@@ -22,3 +24,4 @@ job_delete:
     path:     /{id}/delete
     defaults: { _controller: "JobeetBundle:Job:delete" }
     methods:  DELETE
+

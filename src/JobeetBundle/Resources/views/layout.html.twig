@@ -5,6 +5,8 @@
     <title>{% block title %}Jobeet - Your best job board{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
     <link rel="stylesheet" href="{{ asset('bundles/public/css/main.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/public/css/job.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('bundles/public/css/jobs.css') }}" type="text/css" media="all" />
     <link rel="shortcut icon" href="{{ asset('bundles/public/images/favicon.ico') }}" />
 </head>
 <body>
@@ -12,7 +14,7 @@
 <div id="container">
     <div id="header">
         <div class="content">
-            <h1><a href="{{ path('job_index') }}">
+            <h1><a href="{{ path('jobeet_homepage') }}">
                     <img src="{{ asset('bundles/public/images/logo.jpg') }}" alt="Jobeet Job Board" />
                 </a></h1>
 

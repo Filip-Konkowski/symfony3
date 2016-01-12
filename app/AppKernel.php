@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JobeetBundle\JobeetBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 
         ];
 

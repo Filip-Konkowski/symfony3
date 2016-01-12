@@ -138,5 +138,57 @@ class Affiliate
     {
         return $this->createdAt;
     }
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $category_affiliates;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->category_affiliates = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categoryAffiliate
+     *
+     * @param \JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate
+     *
+     * @return Affiliate
+     */
+    public function addCategoryAffiliate(\JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate)
+    {
+        $this->category_affiliates[] = $categoryAffiliate;
+
+        return $this;
+    }
+
+    /**
+     * Remove categoryAffiliate
+     *
+     * @param \JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate
+     */
+    public function removeCategoryAffiliate(\JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate)
+    {
+        $this->category_affiliates->removeElement($categoryAffiliate);
+    }
+
+    /**
+     * Get categoryAffiliates
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryAffiliates()
+    {
+        return $this->category_affiliates;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+}

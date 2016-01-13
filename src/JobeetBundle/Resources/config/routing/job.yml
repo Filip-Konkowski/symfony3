@@ -1,7 +1,7 @@
 job_index:
     path:     /
     defaults: { _controller: "JobeetBundle:Job:index" }
-    methods:  GET
+    methods:  [GET]
 
 job_show:
     path:  /{id}/{company}/{location}/{position}
@@ -16,12 +16,22 @@ job_new:
     methods:  [GET, POST]
 
 job_edit:
-    path:     /{id}/edit
+    path:     /{token}/edit
     defaults: { _controller: "JobeetBundle:Job:edit" }
     methods:  [GET, POST]
 
 job_delete:
-    path:     /{id}/delete
+    path:     /{token}/delete
     defaults: { _controller: "JobeetBundle:Job:delete" }
-    methods:  DELETE
+    methods:  [POST]
 
+job_preview:
+    path:  /{token}/{company}/{location}/{position}
+    defaults: { _controller: "JobeetBundle:Job:preview" }
+    requirements:
+        token: \w+
+
+job_publish:
+    path: /{token}/publish
+    defaults: { _controller: "JobeetBundle:Job:publish"}
+    methods: [POST]

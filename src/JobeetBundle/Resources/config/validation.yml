@@ -1,0 +1,22 @@
+\JobeetBundle\Entity\Job:
+    properties:
+        type:
+            - NotBlank: ~
+            - Choice: {callback: getTypeValues }
+        company:
+            - NotBlank: ~
+        position:
+            - NotBlank: ~
+        location:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
+        howToApply:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
+            - Email: ~
+        url:
+            - Url: ~
+        file:
+            - Image: ~

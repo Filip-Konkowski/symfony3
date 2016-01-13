@@ -199,5 +199,43 @@ class Category
         $this->slug = Jobeet::slugify($this->getName());
     }
 
-}
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $category_affiliates;
 
+
+    /**
+     * Add categoryAffiliate
+     *
+     * @param \JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate
+     *
+     * @return Category
+     */
+    public function addCategoryAffiliate(\JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate)
+    {
+        $this->category_affiliates[] = $categoryAffiliate;
+
+        return $this;
+    }
+
+    /**
+     * Remove categoryAffiliate
+     *
+     * @param \JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate
+     */
+    public function removeCategoryAffiliate(\JobeetBundle\Entity\CategoryAffiliate $categoryAffiliate)
+    {
+        $this->category_affiliates->removeElement($categoryAffiliate);
+    }
+
+    /**
+     * Get categoryAffiliates
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryAffiliates()
+    {
+        return $this->category_affiliates;
+    }
+}

@@ -6,6 +6,7 @@ namespace JobeetBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 use JobeetBundle\Utils\Jobeet as Jobeet;
+
 /**
  * Job
  */
@@ -91,6 +92,17 @@ class Job
      */
     private $updatedAt;
 
+    public $file;
+
+    public static function getTypes()
+    {
+        return array('full-time' => 'Full time', 'part-time' => 'Part time', 'freelance' => 'Freelance');
+    }
+
+    public static function getTypeValues()
+    {
+        return array_keys(self::getTypes());
+    }
 
     /**
      * Get id
@@ -461,6 +473,7 @@ class Job
     {
         return $this->updatedAt;
     }
+
     /**
      * @var \JobeetBundle\Entity\Category
      */
@@ -490,12 +503,13 @@ class Job
     {
         return $this->category;
     }
+
     /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
     {
-        if(!$this->getCreatedAt()) {
+        if (!$this->getCreatedAt()) {
             $this->createdAt = new \DateTime();
         }
     }
@@ -508,15 +522,18 @@ class Job
         $this->updatedAt = new \DateTime();
     }
 
-    public function getCompanySlug() {
+    public function getCompanySlug()
+    {
         return Jobeet::slugify($this->getCompany());
     }
 
-    public function getPositionSlug() {
+    public function getPositionSlug()
+    {
         return Jobeet::slugify($this->getPosition());
     }
 
-    public function getLocationSlug(){
+    public function getLocationSlug()
+    {
         return Jobeet::slugify($this->getLocation());
     }
 
@@ -525,9 +542,93 @@ class Job
      */
     public function setExpiresAtValue()
     {
-        if(!$this->getExpiresAt()) {
+        if (!$this->getExpiresAt()) {
             $now = $this->getCreatedAt() ? $this->getCreatedAt()->format('U') : time();
             $this->expiresAt = new \DateTime(date('Y-m-d H:i:s', $now + 86400 * 30));
         }
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/jobs';
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__ . '/../../../web/' . $this->getUploadDir();
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->logo ? null : $this->getUploadDir() . '/' . $this->logo;
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->logo ? null : $this->getUploadRootDir() . '/' . $this->logo;
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function preUpload()
+    {
+        if ($this->file !== null) {
+            $this->logo = uniqid() . '.' . $this->file->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist
+     */
+    public function upload()
+    {
+        if ($this->file === null) {
+            return;
+        }
+
+        // If there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->file->move($this->getUploadRootDir(), $this->logo);
+
+        unset($this->file);
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setTokenValue()
+    {
+        if (!$this->getToken()) {
+            $this->token = sha1($this->getEmail().rand(11111, 99999));
+        }
+    }
+
+    public function getDaysBeforeExpires() {
+        return ceil(($this->getExpiresAt()->format('U') - time()) / 86400);
+    }
+
+    public function isExpired() {
+        return $this->getDaysBeforeExpires() < 0;
+    }
+
+    public function expiresSoon() {
+        return $this->getDaysBeforeExpires() < 5;
+    }
+
+    public function publish() {
+        $this->setIsActivated(true);
     }
 }
